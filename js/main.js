@@ -101,11 +101,17 @@ function bodyScrollingToggle() {
       }
 
       slideIndex = 0;
-      popupToggle(); // displays/hides the popup
+      popupToggle(); // displays/hides the popup.
       popupSlideShow(); // controls the slideshow
       popupDetails(); // loads project details for each project in the popup detail section
     }
   });
+
+  // popup toggle function
+  function popupToggle() {
+    popup.classList.toggle("open");
+    bodyScrollingToggle();
+  }
 
   // close popup button
   closeBtn.addEventListener("click", () => {
@@ -115,11 +121,6 @@ function bodyScrollingToggle() {
     }
   });
 
-  function popupToggle() {
-    popup.classList.toggle("open");
-    bodyScrollingToggle();
-  }
-
   function popupSlideShow() {
     const imgSrc = screenshots[slideIndex];
     const popupImg = popup.querySelector(".pp-img");
@@ -127,6 +128,7 @@ function bodyScrollingToggle() {
     // active loader until the popupImg loaded
     popup.querySelector(".pp-loader").classList.add("active");
 
+    // set img source
     popupImg.src = imgSrc;
 
     //  deactivate loader after the popupImg
@@ -134,6 +136,7 @@ function bodyScrollingToggle() {
       popup.querySelector(".pp-loader").classList.remove("active");
     };
 
+    // slider paganation
     popup.querySelector(".pp-counter").innerHTML = `${slideIndex + 1} of ${
       screenshots.length
     }`;
@@ -160,6 +163,7 @@ function bodyScrollingToggle() {
     popupSlideShow();
   });
 
+  // popup detail data loader for each project
   function popupDetails() {
     // get the project title
     const title = portfolioItems[itemIndex].querySelector(
@@ -211,4 +215,56 @@ function bodyScrollingToggle() {
       popup.scrollTo(0, projectDetailsContainer.offsetTop);
     }
   }
+})();
+
+/* -------------------- testimonial slider ---------------------*/
+
+(() => {
+  const sliderContainer = document.querySelector(".testi-slider-container"),
+    slides = sliderContainer.querySelectorAll(".testi-item");
+  slideWidth = sliderContainer.offsetWidth;
+  (prevBtn = document.querySelector(".testi-slider-nav .prev")),
+    (nextBtn = document.querySelector(".testi-slider-nav .next")),
+    (activeSlide = document.querySelector(".testi-item.active"));
+  let slideIndex = Array.from(activeSlide.parentElement.children).indexOf(
+    activeSlide
+  );
+
+  // set width of all slides
+  slides.forEach((slide) => {
+    slide.style.width = `${slideWidth}px`;
+  });
+
+  // set width of slider container
+  sliderContainer.style.width = slideWidth * slides.length + "px";
+
+  nextBtn.addEventListener("click", () => {
+    if (slideIndex === slides.length - 1) {
+      slideIndex = 0;
+    } else {
+      slideIndex++;
+    }
+    slider();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (slideIndex === 0) {
+      slideIndex = slides.length - 1;
+    } else {
+      slideIndex--;
+    }
+    slider();
+  });
+
+  function slider() {
+    // deactivate existing active slides
+    sliderContainer
+      .querySelector(".testi-item.active")
+      .classList.remove("active");
+    // activate new slide
+    slides[slideIndex].classList.add("active");
+    sliderContainer.style.marginLeft = -(slideWidth * slideIndex) + "px";
+  }
+
+  slider();
 })();
