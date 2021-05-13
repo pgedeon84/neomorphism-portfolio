@@ -24,11 +24,27 @@ global style
    --inner-shadow-0: inset 0 0 0 #d0d0d0, inset 0 0 0 #f8f8f8;
 }
 
+/* custom css varible for dark theme*/
+body.dark {
+     --bg-black-900: #ffffff;
+     --bg-black-100: #353535;
+     --bg-black-50: #2b2c2f;
+     --bg-opacity: rgba(43, 44, 47, 0.5);
+     --text-black-900: #ffffff;
+     --text-black-700: #ffffff;
+     --text-black-600: #bbbbbb;
+     --outer-shadow: 3px 3px 3px #222327, -3px -3px 3px #363636;
+     --outer-shadow-0: 0 0 0 #222327, 0 0 0 #363636;
+     --inner-shadow: inset 3px 3px 3px #222327, inset -3px -3px 3px #363636;
+     --inner-shadow-0: inset 0 0 0 #222327, inset 0 0 0 #363636;
+}
+
 body {
     font-size: 16px;
     line-height: 1.5;
     overflow-x: hidden;
     background-color: var(--bg-black-50);
+    transition: all 300ms ease;
 }
 
 body.hidden-scrolling {
@@ -64,6 +80,10 @@ ul {
 img {
    vertical-align: middle;
    max-width: 100%; 
+}
+
+.img-box {
+    filter: grayscale(20%)
 }
 
 .container {
@@ -109,6 +129,7 @@ img {
     width: 100%;
     height: 100%;
     transition: all 30ms ease;
+    z-index: -1;
 }
 
 .hover-in-shadow:hover::after {
@@ -126,6 +147,7 @@ img {
     cursor: pointer;
     transition: all 30ms ease;
     display: inline-block;
+    border: none;
 }
 
 .btn-1::after {
@@ -273,8 +295,13 @@ img {
     font-weight: 600;
     color: var(--skin-color)
 }
+
+.section.hide {
+    display: none;
+}
+
 /* ---------------
-header
+    header
 ------------------*/
 
 .header {
@@ -341,6 +368,8 @@ header
     bottom: -6px;
 }
 
+
+
 /*------------------
  navigation menu 
  -------------------*/
@@ -359,31 +388,65 @@ header
     overflow-y: auto;
  }
 
+ .fade-out-effect {
+     position: fixed;
+     left: 0;
+     right: 0;
+     width: 100%;
+     height: 100%;
+     background-color: var(--bg-black-50);
+     z-index: -1;
+     visibility: hidden;
+ }
+
+ .fade-out-effect.active {
+     visibility: visible;
+     z-index: 1000;
+     animation: fadeOut 300ms ease-out;
+ }
+
+ @keyframes fadeOut {
+     0% {
+         opacity: 1;
+     }
+
+     100% {
+         opacity: 0;
+     }
+ }
+
+ .nav-menu.open {
+    visibility: visible;
+    opacity: 1;
+    z-index: 999;
+    transition: all 300ms ease-in;
+ }
+
  .nav-menu .close-nav-menu {
-     display: block;
-     height: 40px;
-     width: 40px;
-     border-radius: 50%;
-     line-height: 35px;
-     font-size: 35px;
-     position: absolute;
-     right: 15px;
-     top: 15px;
-     cursor: pointer;
-     text-align: center;
-     color: var(--text-black-600);
-     transition: all 30ms ease;
+    display: block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 35px;
+    font-size: 35px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-black-600);
+    transition: all 30ms ease;
  }
 
  .nav-menu .close-nav-menu::after {
-     border-radius: 50%;
+    border-radius: 50%;
  }
 
  .nav-menu-inner {
-     min-height: 100vh;
-     display: flex;
-     align-items: center;
-     justify-content: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
  }
 
  .nav-menu ul {
@@ -404,7 +467,7 @@ header
     display: inline-block;
     font-size: 28px;
     font-weight:600 ;
-    color: var(--text-black-700);
+    color: var(--text-black-600);
     padding: 5px 30px;
     text-transform: capitalize;
     border-radius: 30px;
@@ -457,7 +520,7 @@ header
 .home-section .home-text h1{
     font-size: 20px;
     font-weight: 500;
-    color: var(--text-black-700);
+    color: var(--text-black-600);
     margin: 0;
     text-transform: capitalize;
 }
@@ -479,7 +542,6 @@ header
      margin: auto;
      border-radius: 50%;
      padding: 15px;
-     filter: grayscale(18%);
  }
 
  .home-section .home-img .img-box img {
@@ -505,8 +567,7 @@ header
 
  .about-section .about-img .img-box {
     padding: 15px;
-    filter: grayscale(18%);
-    border-radius: 5px;
+    border-radius: 5px;  
  }
 
  .about-section .about-img .img-box img{
@@ -791,6 +852,7 @@ header
     display: block;
     margin: 0 auto 30px;
     position: relative;
+    color: var(--text-black-600);
 }
 
 .service-section .service-item-inner .icon::after {
@@ -1305,4 +1367,96 @@ portfolio-section
 
 .testimonial-section .testi-slider-nav span i {
     line-height: 40px;
+}
+
+/*---------------------
+    contact section
+-----------------------*/
+
+.contact-section {
+    padding: 80px 0 80px;
+    min-height: 100vh;
+}
+
+.contact-section .contact-item {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    padding: 15px;
+    display: flex;
+}
+
+.contact-section .contact-item-inner{
+    padding: 30px 15px;
+    text-align: center;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.contact-section .contact-item-inner i {
+    font-size: 25px;
+    color: var(--skin-color);
+}
+
+.contact-section .contact-item-inner span {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-black-700);
+    margin: 15px 0 10px;
+    text-transform: capitalize;
+}
+
+.contact-section .contact-item-inner p {
+    font-size: 16px;
+    color: var(--text-black-600);
+    line-height: 26px;
+    margin: 0;
+    word-break: break-word;
+}
+
+.contact-section .contact-form {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 50px;
+}
+
+.contact-section .w-50 {
+    padding: 0 15px;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.contact-section .input-group {
+    margin: 0 0 25px;
+    transition: all 300ms ease;
+    border-radius: 30px;
+}
+
+.contact-section .input-group::after {
+    border-radius: 30px;
+}
+
+.contact-section .input-group .input-control {
+    height: 45px;
+    display: block;
+    width: 100%;
+    border-radius: 30px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    padding: 0 15px;
+    color: var(--text-black-700);
+}
+
+.contact-section .input-group textarea.input-control {
+    height: 180px;
+    padding-top: 15px;
+    resize: none;
+}
+
+.contact-section .submit-btn {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: right;
+    padding: 0 15px;
 }
